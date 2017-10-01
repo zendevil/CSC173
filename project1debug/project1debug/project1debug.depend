@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1506049031 source:c:\users\prikshet\desktop\csc173\project1debug\project1debug\main.c
+	<stdio.h>
+	<stdlib.h>
+	"dfa.h"
+	"nfa.h"
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	"IntSet.h"
+	<string.h>
+
+1505941207 c:\users\prikshet\desktop\csc173\project1debug\project1debug\dfa.h
+
+1506049147 c:\users\prikshet\desktop\csc173\project1debug\project1debug\nfa.h
+	<stdbool.h>
+	"IntSet.h"
+
+1506046950 source:c:\users\prikshet\desktop\csc173\project1debug\project1debug\intset.c
+	<stdlib.h>
+	<stdio.h>
+	"IntSet.h"
+	<string.h>
+
+1506046788 c:\users\prikshet\desktop\csc173\project1debug\project1debug\intset.h
+	<stdbool.h>
+
