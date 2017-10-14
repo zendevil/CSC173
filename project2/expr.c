@@ -314,9 +314,9 @@ int addSubTree(TREE*parserTree, TREE temp, stackElement leaf) {
 
         //printf("Right sibling is still intact: %c\n",((*parserTree)->leftmostChild)->rightSibling->label);
 
-        if(!addSubTree(&((*parserTree)->leftmostChild),temp, leaf)) {
+        //if(!addSubTree(&((*parserTree)->leftmostChild),temp, leaf)) {
 					addSubTree(&(*parserTree)->rightSibling,temp,leaf);
-				}
+				//}
 
 	}
     //if it's a terminal with siblings then move to the right sibling
@@ -725,6 +725,16 @@ TREE getTreeFromTable(int production, STACK * parserStack) {
 
 }
 
+/*
+void createTree(TREE *t) {
+
+	if((*t)->label == 'E') {
+
+		(*t)->leftmostChild = createTree(&((*t)->leftmostChild));
+
+	}
+}*/
+
 
 
 
@@ -766,6 +776,7 @@ TREE tableDrivenParser(){
 
 				printf("Going to addSubTree....................\n");
 				addSubTree(&TDParserTree, temp, poppedElement);
+				//createTree(&TDParserTree, production);
 				printf("Returning from addSubTree..............\n");
 
 				printf("the TDParserTree:\n");
@@ -805,14 +816,12 @@ void treeEval(*TREE t) {
     TREE left = *t -> leftMostChild;
     //TREE center = t -> center;
     TREE right = t -> rightSibling;
-
     if (leftMostChild != NULL && left -> label == 0)
 	evaluate_tree(left);
   //  if (center != NULL && center -> terminal == 0)
 	//evaluate_tree(center);
     if (rightSibling  != NULL && rightSibling -> t == 0)
 	evaluate_tree(right);
-
     if (left != NULL && strcmp(left -> data, "empty string") == 0) {
         free(left);
         t -> left = NULL;
@@ -823,11 +832,9 @@ void treeEval(*TREE t) {
         free(right);
         t->right = NULL;
     }
-
     left = t -> left;
     center = t -> center;
     right = t -> right;
-
 */
 
 
