@@ -280,9 +280,91 @@ BOOLEAN isNumber(char a){
 	}
 //printf("Returning FALSE from isTerminal\n");
 	return FALSE;
+<<<<<<< HEAD
 }
 
 typedef char stackElement;
+=======
+}
+
+typedef char stackElement;
+int addSubTree(TREE*parserTree, TREE temp, stackElement leaf) {
+
+    printf("temp->label: %c\n", temp->label);
+		printf("parserTree->label: %c\n", (*parserTree)->label);
+		printf("This is the temp tree\n" );
+		printParseTree(temp,0);
+		printf("This is the parserTree\n");
+		printParseTree(*parserTree,0);
+
+    //satisfying condition where we add the subtree
+    if((((*parserTree)->label) == leaf) && (((*parserTree)->leftmostChild) == NULL)){
+
+			// TREE *temp1 = malloc(sizeof(TREE*));
+			// temp1 = parserTree;
+			//
+			// *parserTree = temp; //add the subtree to the relevant leaf position
+			// (*parserTree)->rightSibling = (*temp1)->rightSibling;
+
+		(*parserTree)->leftmostChild = temp; //add the subtree to the relevant leaf position
+
+		printf("This is the parserTree after assignment\n");
+		printParseTree(*parserTree,0);
+
+		// if((*parserTree)->rightSibling == NULL) {
+		// 	printf("rightSibling doesn't exist for: %c", (*parserTree)->label);
+		// } else {
+		// 	printf("rightSibling exists for: %c and is %c!\n", (*parserTree)->label,(*parserTree)->rightSibling->label );
+		// }
+		return TRUE; // we wouldn't need the value of this return I think
+
+    }
+    //if it's not the leaf
+    else if(((*parserTree)->leftmostChild) != NULL){
+
+        printf("This is leftmostChild: %c\n", ((*parserTree)->leftmostChild)->label);
+
+        //printf("Right sibling is still intact: %c\n",((*parserTree)->leftmostChild)->rightSibling->label);
+
+        //if(!addSubTree(&((*parserTree)->leftmostChild),temp, leaf)) {
+					addSubTree(&(*parserTree)->rightSibling,temp,leaf);
+				//}
+
+	}
+    //if it's a terminal with siblings then move to the right sibling
+    else if(isTerminal((*parserTree)->label) && (*parserTree)->rightSibling != NULL) {
+
+        //		printf("We come here!3\n" );
+        printf("this is the right sibling right now: %c", ((*parserTree)->rightSibling)->label);
+        addSubTree(&((*parserTree)->rightSibling),temp, leaf);
+
+    }
+   //if it's a terminal with no right siblings then move to the parent
+    else if((*parserTree)->rightSibling == NULL && isTerminal((*parserTree)->label)) {
+        //addSubTree(&(((*parserTree)->parent)->rightSibling), temp);
+				return FALSE;
+
+    }
+
+    return FALSE; //we wouldn't really use the value of this return I think
+}
+
+
+
+
+int parsingTable[8][17] = {
+	{0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0},
+	{0,0,3,12,0,0,0,0,0,0,0,0,0,0,0,0,2},
+	{0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,0,0},
+	{6,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5},
+	{0,0,0,0,8,8,8,8,8,8,8,8,8,8,7,0,0},
+	{0,0,0,0,9,9,9,9,9,9,9,9,9,9,0,0,0},
+	{0,0,0,0,11,11,11,11,11,11,11,11,11,11,0,0,10},
+	{0,0,0,0,14,15,16,17,18,19,20,21,22,23,0,0,0}
+};
+
+
+>>>>>>> a25db87015ea539a982149edd7990378aee66c51
 typedef struct  {
 	stackElement *contents;
 	int top;
@@ -350,6 +432,7 @@ stackElement stackPop(STACK *stack){
 }
 
 
+<<<<<<< HEAD
 STACK parserStack;
 
 TREE tableDrivenParser(stackElement element) {
@@ -416,6 +499,127 @@ stackPush(&parserStack, 'E');
 			t = makeNode1('U',makeNode0('e'));
 		}
 	}
+=======
+
+int lookUp(stackElement poppedElement, char nextTerminal) {
+	unsigned int i,j;
+
+	if(poppedElement == 'E') {
+		i = 0;
+	} else if (poppedElement == 'U') {
+		i = 1;
+	} else if (poppedElement == 'T') {
+		i = 2;
+	} else if (poppedElement == 'G') {
+		i = 3;
+	} else if (poppedElement == 'F') {
+		i = 4;
+	} else if (poppedElement == 'N') {
+		i = 5;
+	} else if (poppedElement == 'P') {
+		i = 6;
+	} else if (poppedElement == 'D') {
+		i = 7;
+	} else {
+		i = -1;
+		printf("Something is wrong in lookUp. poppedElement was not matched");
+	}
+
+	if(nextTerminal == '*') {
+		j = 0;
+	} else if(nextTerminal == '/') {
+		j = 1;
+	} else if(nextTerminal == '+') {
+		j = 2;
+	} else if(nextTerminal == '-') {
+		j = 3;
+	} else if(nextTerminal == '0') {
+		j = 4;
+	} else if(nextTerminal == '1') {
+		j = 5;
+	} else if(nextTerminal == '2') {
+		j = 6;
+	} else if(nextTerminal == '3') {
+		j = 7;
+	} else if(nextTerminal == '4') {
+		j = 8;
+	} else if(nextTerminal == '5') {
+		j = 9;
+	} else if(nextTerminal == '6') {
+		j = 10;
+	} else if(nextTerminal == '7') {
+		j = 11;
+	} else if(nextTerminal == '8') {
+		j = 12;
+	} else if(nextTerminal == '9') {
+		j = 13;
+	} else if(nextTerminal == '(') {
+		j = 14;
+	} else if(nextTerminal == ')') {
+		j = 15;
+	}
+
+	//for the null cases
+
+	if((poppedElement == 'U' && nextTerminal != '+' && nextTerminal != '-') || (poppedElement == 'G' && nextTerminal != '*' && nextTerminal != '/') || (poppedElement == 'P' && !isNumber(nextTerminal))) {
+		j=16;
+	}
+
+	return parsingTable[i][j];
+}
+
+
+TREE getTreeFromTable(int production, STACK * parserStack) {
+
+	TREE temp;
+	TREE rightSibling1 = malloc(sizeof(TREE));
+	TREE rightSibling2 = malloc(sizeof(TREE));
+	//TREE rightSibling3 = malloc(sizeof(TREE));
+	switch(production) {
+
+
+
+		case 1:
+			stackPush(parserStack, 'U');
+			stackPush(parserStack, 'T');
+
+			//temp = makeNode2('E', makeNode0('T'), makeNode0('U'));
+			temp = makeNode0('T');
+			rightSibling1 = makeNode0('U');
+			temp->rightSibling = rightSibling1;
+			break;
+
+		case 2:
+
+			//temp = makeNode1('U', makeNode0('e'));
+
+			temp =  makeNode0('e');
+
+			break;
+
+		case 3:
+			stackPush(parserStack,'U');
+			stackPush(parserStack,'T');
+			stackPush(parserStack,'+');
+
+			//temp = makeNode3('U', makeNode0('+'), makeNode0('T'), makeNode0('U'));
+			temp = makeNode0('+');
+			rightSibling1 = makeNode0('T');
+			rightSibling2 = makeNode0('U');
+			temp->rightSibling = rightSibling1;
+			rightSibling1->rightSibling = rightSibling2;
+			break;
+
+		case 4:
+			stackPush(parserStack,'G');
+			stackPush(parserStack,'F');
+
+			//temp = makeNode2('T', makeNode0('F'), makeNode0('G'));
+			temp = makeNode0('F');
+			rightSibling1 = makeNode0('G');
+			temp->rightSibling = rightSibling1;
+
+>>>>>>> a25db87015ea539a982149edd7990378aee66c51
 
 		if(element == 'T'){
 			if(lookAhead('0') ||lookAhead('1')||lookAhead('2') ||lookAhead('3') ||lookAhead('4')||lookAhead('5') || lookAhead('6') ||lookAhead('7')||lookAhead('8') || lookAhead('9') || lookAhead('(')){
@@ -430,6 +634,7 @@ stackPush(&parserStack, 'E');
 			//printf("An error occured at T");
 		}
 
+<<<<<<< HEAD
 	}
 
 		if(element == 'G' ) {
@@ -538,10 +743,257 @@ stackPush(&parserStack, 'E');
 				}
 
 
+=======
+			break;
 
+		case 5:
+			//temp = makeNode1('G', makeNode0('e'));
+			temp = makeNode0('e');
+
+		case 6:
+			stackPush(parserStack,'G');
+			stackPush(parserStack,'F');
+			stackPush(parserStack,'*');
+
+			///temp = makeNode3('G', makeNode0('*'), makeNode0('F'), makeNode0('G'));
+			temp = makeNode0('*');
+			rightSibling1 = makeNode0('F');
+			rightSibling2 = makeNode0('G');
+			temp->rightSibling = rightSibling1;
+			rightSibling1->rightSibling = rightSibling2;
+			break;
+
+		case 7:
+			stackPush(parserStack,')');
+			stackPush(parserStack,'E');
+			stackPush(parserStack,'(');
+
+			//temp = makeNode3('F', makeNode0('('), makeNode0('E'), makeNode0(')'));
+
+			temp = makeNode0('(');
+			rightSibling1 = makeNode0('E');
+			rightSibling2 = makeNode0(')');
+			temp->rightSibling = rightSibling1;
+			rightSibling1->rightSibling = rightSibling2;
+
+			break;
+
+		case 8:
+			stackPush(parserStack,'N');
+
+			//temp = makeNode1('F', makeNode0('N'));
+
+			temp = makeNode0('N');
+
+			break;
+
+		case 9:
+			stackPush(parserStack,'P');
+			stackPush(parserStack,'D');
+
+			//temp = makeNode2('N', makeNode0('D'), makeNode0('P'));
+
+			temp = makeNode0('D');
+			rightSibling1 = makeNode0('P');
+			temp->rightSibling = rightSibling1;
+
+
+
+			break;
+
+		case 10:
+
+			//temp = makeNode1('P', makeNode0('e'));
+
+			temp = makeNode0('e');
+			break;
+
+
+		case 11:
+			stackPush(parserStack,'N');
+
+			//temp = makeNode1('P', makeNode0('N'));
+			temp = makeNode0('N');
+
+
+			break;
+
+		case 12:
+			stackPush(parserStack,'U');
+			stackPush(parserStack,'T');
+			stackPush(parserStack,'-');
+
+			//temp = makeNode3('U', makeNode0('-'), makeNode0('T'), makeNode0('U'));
+			temp = makeNode0('-');
+			rightSibling1 = makeNode0('T');
+			rightSibling2 = makeNode0('U');
+			temp->rightSibling = rightSibling1;
+			rightSibling1->rightSibling = rightSibling2;
+
+			break;
+
+		case 13:
+			stackPush(parserStack,'G');
+			stackPush(parserStack,'F');
+			stackPush(parserStack,'/');
+
+			//temp = makeNode3('G', makeNode0('/'), makeNode0('F'), makeNode0('G'));
+			temp = makeNode0('/');
+			rightSibling1 = makeNode0('F');
+			rightSibling2 = makeNode0('G');
+			temp->rightSibling = rightSibling1;
+			rightSibling1->rightSibling = rightSibling2;
+			break;
+
+		case 14:
+			stackPush(parserStack,'0');
+
+			//temp = makeNode1('D', makeNode0('0'));
+			temp = makeNode0('0');
+
+
+			break;
+
+		case 15:
+			stackPush(parserStack,'1');
+
+			//temp = makeNode1('D', makeNode0('1'));
+			temp = makeNode0('1');
+
+			break;
+
+		case 16:
+			stackPush(parserStack,'2');
+
+			//temp = makeNode1('D', makeNode0('2'));
+			temp = makeNode0('2');
+
+			break;
+
+		case 17:
+			stackPush(parserStack,'3');
+
+			//temp = makeNode1('D', makeNode0('3'));
+			temp = makeNode0('3');
+
+			break;
+
+		case 18:
+			stackPush(parserStack,'4');
+
+			//temp = makeNode1('D', makeNode0('4'));
+			temp = makeNode0('4');
+			break;
+
+		case 19:
+			stackPush(parserStack,'5');
+
+			//temp = makeNode1('D', makeNode0('5'));
+			temp = makeNode0('5');
+			break;
+
+		case 20:
+			stackPush(parserStack,'6');
+
+			//temp = makeNode1('D', makeNode0('6'));
+			temp = makeNode0('6');
+			break;
+
+		case 21:
+			stackPush(parserStack,'7');
+
+			//temp = makeNode1('D', makeNode0('7'));
+			temp = makeNode0('7');
+			break;
+
+		case 22:
+			stackPush(parserStack,'8');
+
+			//temp = makeNode1('D', makeNode0('8'));
+			temp = makeNode0('8');
+
+			break;
+
+		case 23:
+			stackPush(parserStack,'9');
+
+			//temp = makeNode1('D', makeNode0('9'));
+			temp = makeNode0('9');
+
+			break;
 
 	}
 
+
+	return temp;
+
+}
+
+/*
+void createTree(TREE *t) {
+
+	if((*t)->label == 'E') {
+
+		(*t)->leftmostChild = createTree(&((*t)->leftmostChild));
+
+	}
+}*/
+
+
+
+
+TREE tableDrivenParser(){
+	TREE TDParserTree = makeNode0('E'); //initialize the tree with syntactic category at the root
+	STACK parserStack;
+
+	stackInit(&parserStack, MAX_SIZE);
+	stackPush(&parserStack, 'E');
+	int production;
+
+	while(!stackIsEmpty(&parserStack) /*&& nextTerminal != '\0'*/){
+
+		//popping the element from the stack
+		stackElement poppedElement = stackPop(&parserStack);
+		printf("Popped: %c\n", poppedElement);
+		printf("current terminal: %c\n", *nextTerminal);
+
+		if(isTerminal(poppedElement)) {
+			if(!matchTerminal(poppedElement)) {
+				printf("It doesn't work\n" );
+				//break;
+			}
+			//matchTerminal(poppedElement);
+
+		} else {
+			//printf("\nSending this poppedElement to lookUp: %c. nextTerminal: %c\n",poppedElement,*nextTerminal );
+				production = lookUp(poppedElement, *nextTerminal);
+				printf("production: %d\n", production);
+				if(production==0) {
+					printf("Breaking bad 1\n" );
+					break;
+				}
+
+
+				TREE temp = getTreeFromTable(production, &parserStack);
+
+				//printf("Checking if the U exists: %c", TDParserTree->leftmostChild->rightSibling->label);
+
+				printf("Going to addSubTree....................\n");
+				addSubTree(&TDParserTree, temp, poppedElement);
+				//createTree(&TDParserTree, production);
+				printf("Returning from addSubTree..............\n");
+
+				printf("the TDParserTree:\n");
+				printParseTree(TDParserTree,0);
+				printf("\n\n\n\n");
+		}
+>>>>>>> a25db87015ea539a982149edd7990378aee66c51
+
+
+	}
+	//printf("We're out of the while loop\n" );
+
+<<<<<<< HEAD
 	return t;
 }
 
@@ -550,6 +1002,17 @@ double calcTree(TREE t) {
 
 if (t->label == 'E') {
    return calcTree(t->leftmostChild) + calcTree(t->leftmostChild->rightSibling);
+=======
+	if(*nextTerminal == '\0') {
+		printf("Entire input was consumed\n");
+
+	} else {
+		printf("It failed sorry, the nextTerminal value is actually: %c\n", *nextTerminal );
+	}
+    //printf("Do we ever come here????????");
+    //printf("Checking if the U exists: %c", TDParserTree->leftmostChild->rightSibling->label);
+    return TDParserTree;
+>>>>>>> a25db87015ea539a982149edd7990378aee66c51
 }
 
 if (t->label == 'T') {
@@ -584,6 +1047,7 @@ if (t->label == 'P') {
    }
 }
 
+<<<<<<< HEAD
 if (t->label == 'G') {
         if(t->leftmostChild->label=='e') {
             return 1;
@@ -636,6 +1100,34 @@ if(t->label == 'U'){
     else if(t->leftmostChild->label=='-'){
         return -(calcTree(t->leftmostChild)+calcTree(t->leftmostChild->rightSibling));
     }
+=======
+//code for problem 3
+/*
+void treeEval(*TREE t) {
+    TREE left = *t -> leftMostChild;
+    //TREE center = t -> center;
+    TREE right = t -> rightSibling;
+    if (leftMostChild != NULL && left -> label == 0)
+	evaluate_tree(left);
+  //  if (center != NULL && center -> terminal == 0)
+	//evaluate_tree(center);
+    if (rightSibling  != NULL && rightSibling -> t == 0)
+	evaluate_tree(right);
+    if (left != NULL && strcmp(left -> data, "empty string") == 0) {
+        free(left);
+        t -> left = NULL;
+    } if (center != NULL && strcmp(center->data, "empty string") == 0) {
+        free(center);
+        t->center = NULL;
+    } if (right != NULL && strcmp(right->data, "empty string") == 0) {
+        free(right);
+        t->right = NULL;
+    }
+    left = t -> left;
+    center = t -> center;
+    right = t -> right;
+*/
+>>>>>>> a25db87015ea539a982149edd7990378aee66c51
 
 }
 
@@ -651,6 +1143,7 @@ char *nextTerminal0, *nextTerminal1;
 int main() {
 
 	nextTerminal  = malloc(sizeof(char *));
+<<<<<<< HEAD
 	nextTerminal0 = malloc(sizeof(char *));
 	nextTerminal1 = malloc(sizeof(char *));
 printf("Press return key to continue.");
@@ -668,6 +1161,30 @@ while(getchar()!=EOF) {
 	nextTerminal = nextTerminal0;
 	TREE parseTree0 = tableDrivenParser('E');
 	nextTerminal = nextTerminal1;
+=======
+// printf("Recursive descent parser (Press return key to continue)");
+//
+// while(getchar()!=EOF) {
+// 	printf("Expression: ");
+//
+// 	scanf("%s", nextTerminal);
+//
+// 	parseTree = E();
+// 	if(parseTree == NULL){
+// 		printf("Expression is not well formed\n");
+// 	} else {
+// 		printParseTree(parseTree,0);
+// 	}
+//
+// }
+
+	printf("Table driven parser (Press return key to continue)\n");
+while(getchar()!=EOF) {
+	printf("Input Expression: ");
+
+	scanf("%s", nextTerminal);
+	printf("\n\n\n\n" );
+>>>>>>> a25db87015ea539a982149edd7990378aee66c51
 
 	if(parseTree0 == NULL){
 		printf("Not parsable by recursive descent parser! Try a well formed expression.\n");
@@ -682,8 +1199,14 @@ while(getchar()!=EOF) {
 		char *a;
 		sprintf(a,"%f", ans);
 
+<<<<<<< HEAD
 		printf("Answer: %f\n", strrev(a));
 		stackDestroy(&parserStack);
+=======
+        //printf("Trying to print the tree in the main function\n");
+				printf("Parsed tree using table driven parsing: \n");
+        printParseTree(parseTree0,0);
+>>>>>>> a25db87015ea539a982149edd7990378aee66c51
 	}
 
 }
