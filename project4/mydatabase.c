@@ -2,6 +2,26 @@
 #include<stdlib.h>
 #define LSIZE 5
 
+
+typedef struct {
+  int nAttr;
+  char *attr;
+} tuple;
+
+
+typedef struct {
+  tuple schema;
+  tuple *entries;
+  int size;
+} table;
+
+
+typedef struct {
+  int nTuples;
+  table * tables;
+} db;
+
+
 //creating Course-Student-Grade (CSG) schema
 typedef struct CSG{
   char *course;
@@ -22,8 +42,8 @@ typedef struct SNAP {
   char *phone;
 } SNAP;
 //LSNAP is the table in which all the SNAP values will be stored.
-typedef struct SNAP* LSNAP;
-typedef LSNAP HSNAP[LSIZE];
+//typedef struct SNAP* LSNAP;
+typedef LSNAP HASHTABLE[LSIZE];
 
 
 
