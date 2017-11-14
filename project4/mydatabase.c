@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #define LSIZE 5
+#include "mydatabase.h"
 
 typedef struct tuple {
   int nAttr;
@@ -23,7 +24,7 @@ void insert(tuple tu, table ta) {
 
 int main() {
 
-  table csg;
+  table csg = malloc(sizeof(table));
   csg[0].nAttr = 3;
   csg[0].attr[0] = "CSC173";
   csg[0].attr[1] = "George Ferguson";
