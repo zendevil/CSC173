@@ -17,7 +17,8 @@ int hash(int key) {
 }
 
 
-void insert(tuple tu, table ta) {
+void insert(tuple a, table *b) {
+
 
 }
 
@@ -30,7 +31,9 @@ int main() {
   csg[0].attr[1] = "George Ferguson";
   csg[0].attr[2] = "D";
 
-  printf("number of attributes: %s\n", csg[0].attr[0]);
+  printf("Course name: %s\n", csg[0].attr[0]);
+  printf("Student: %s\n", csg[0].attr[1]);
+  printf("Grade: %s\n", csg[0].attr[2]);
 
   //
   // t1[0].id = 184;
