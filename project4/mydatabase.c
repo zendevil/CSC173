@@ -1,82 +1,62 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #define LSIZE 5
 #include "mydatabase.h"
 
-typedef struct tuple {
+typedef struct Tuple {
   int nAttr;
   char **attr;
-  tuple *next;
-} tuple;
-typedef struct tuple* table;
+  char *key;
+  Tuple *next;
+} Tuple;
+typedef struct Tuple* List;
+typedef List Hashtable[LSIZE];
 
+typedef struct Node* Tree;
 
+struct Node {
+  char name[30];
+  List toTuple; /*really a pointer to a tuple*/
+  Tree lc;
+  Tree rc;
+} Node;
 
-int hash(int key) {
-  return key % LSIZE;
+int hash(char* key) {
+
+  int sum = 0;
+  for (int i = 0; key[i] != '\0'; i++) {
+    sum += key[i];
+  }
+  return sum % LSIZE;
 }
 
 
-void insert(tuple a, table *b) {
+void bucketInsert(Tuple x, List *l) {
+  if(*l == NULL) {
+    (*l) = (List) malloc(sizeof(List));
+    *l[0] = x;
+    (*l)->next = NULL;
+  } else {
+      bucketInsert(x, &((*l)->next));
+  }
+}
 
-
+void insert(Tuple *a, Hashtable *b) {
+  bucketInsert(*a, b[hash(a->key)]);
 }
 
 
-int main() {
+int main(void) {
 
-  table csg = malloc(sizeof(table));
-  csg[0].nAttr = 3;
-  csg[0].attr[0] = "CSC173";
-  csg[0].attr[1] = "George Ferguson";
-  csg[0].attr[2] = "D";
+  Hashtable *csg = (Hashtable*)malloc(sizeof(Hashtable));
+  Tuple *a = (Tuple*)malloc(sizeof(Tuple));
+  a->nAttr = 3;
+  a->attr[0] = "CSC173";
+  a->attr[1] = "Luke Skywalker";
+  a->attr[2] = "A";
+  a->key = a->attr[0];
+  insert(a, csg);
 
-  printf("Course name: %s\n", csg[0].attr[0]);
-  printf("Student: %s\n", csg[0].attr[1]);
-  printf("Grade: %s\n", csg[0].attr[2]);
-
-  //
-  // t1[0].id = 184;
-  // t1[1].id = 123;
-  // t1[2].id = 857;
-  //
-  // int i0 = hash(t1[0].id);
-  // int i1 = hash(t1[1].id);
-  // int i2 = hash(t1[2].id);
-  //
-  // printf("hash1: %d\n", i0);
-  // printf("hash2: %d\n", i1);
-  // printf("hash3: %d\n", i2);
-
-
-
-
-
-
-  // printf("index: %d\n", hash(t1[0].id));
-  // int index = hash(t1[0].id);
-  // HSNAP[index] =  t1;
-  // printf("%d\n", t1[0].id);
-
-//adding values in row 1 of the table t
-  // t[0].course = "CSC173";
-  // t[0].id = 12345;
-  // t[0].grade = "A";
-
-
-
-//adding values in row 2 of the table t
-  // t[1].course = "CSC171";
-  // t[1].id = 12345;
-  // t[1].grade = "A-";
-  //
-  // printf("%s\n", t[0].course);
-  // printf("%d\n", t[0].id);
-  // printf("%s\n", t[0].grade);
-  //
-  //
-  // printf("%s\n", t[1].course);
-  // printf("%d\n", t[1].id);
-  // printf("%s\n", t[1].grade);
   return 0;
 }

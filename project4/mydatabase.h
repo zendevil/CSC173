@@ -1,1 +1,1 @@
-typedef struct tuple tuple;
+typedef struct Tuple Tuple;
