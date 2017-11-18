@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#define LSIZE 5
+#include<stdarg.h>
+#define NBUCKETS 5
 #include "mydatabase.h"
 
 typedef struct Tuple {
@@ -11,7 +12,7 @@ typedef struct Tuple {
   Tuple *next;
 } Tuple;
 typedef struct Tuple* List;
-typedef List Hashtable[LSIZE];
+typedef List Hashtable[NBUCKETS];
 
 typedef struct Node* Tree;
 
@@ -28,13 +29,20 @@ int hash(char* key) {
   for (int i = 0; key[i] != '\0'; i++) {
     sum += key[i];
   }
-  return sum % LSIZE;
+  //printf("%s is hashed to %d\n",*key, sum % NBUCKETS);
+  return sum % NBUCKETS;
+}
+
+
+void delete(Tuple *t, Hashtable *h ) {
+
 }
 
 
 void bucketInsert(Tuple x, List *l) {
+
   if(*l == NULL) {
-    (*l) = (List) malloc(sizeof(List));
+    *l = (List) malloc(sizeof(Tuple));
     *l[0] = x;
     (*l)->next = NULL;
   } else {
@@ -42,21 +50,58 @@ void bucketInsert(Tuple x, List *l) {
   }
 }
 
-void insert(Tuple *a, Hashtable *b) {
-  bucketInsert(*a, b[hash(a->key)]);
+void insert(Tuple t, Hashtable h) {
+  printf("Inserting tuple with key %s into this index: %d\n", t.key, hash(t.key));
+  bucketInsert(t, &(h[hash(t.key)]));
 }
 
+Tuple tuple_new(char *key, int nAttr, ...) {
+  va_list valist;
+
+  va_start(valist, nAttr); // initialize valist for nAttr number of arguments
+
+  Tuple *t = (Tuple*)malloc(sizeof(Tuple));
+
+  t->nAttr = nAttr;
+  t->key = key;
+  t->next = NULL;
+  t->attr = malloc(sizeof(char*) * nAttr);
+
+  for(int i = 0; i< nAttr; i++) {
+    t->attr[i] = va_arg(valist, char*);
+  }
+
+  va_end(valist);
+  return *t;
+
+}
 
 int main(void) {
+  Hashtable csg;
 
-  Hashtable *csg = (Hashtable*)malloc(sizeof(Hashtable));
-  Tuple *a = (Tuple*)malloc(sizeof(Tuple));
-  a->nAttr = 3;
-  a->attr[0] = "CSC173";
-  a->attr[1] = "Luke Skywalker";
-  a->attr[2] = "A";
-  a->key = a->attr[0];
+  for(int i = 0; i< NBUCKETS; i++) {
+	  
+    csg[i] = NULL;
+  }
+
+  
+  Tuple c = tuple_new("John", 3, "CSC282", "John", "A-");
+  insert(c, csg);
+ 
+
+  Tuple a = tuple_new("Luke Skywalker", 3,"CSC173", "Luke Skywalker", "A");
+
   insert(a, csg);
+
+  Tuple b = tuple_new("Luke Skywalker", 3,"MTH201", "Luke Skywalker", "B");
+
+  insert(b, csg);
+  
+  Tuple d = tuple_new("George Eastman", 3, "MUR110", "George Eastman", "A+");
+  insert(d, csg);
+  
+
+
 
   return 0;
 }
