@@ -57,10 +57,7 @@ int hash(char* key) {
 int keyExists(char* key, List *l) {
 	Tuple *curr = *l;
 	while(curr != NULL) {
-		printf("key=%s\n", key);
-		printf("(*l)->key)=%s\n", (*l)->key);
-		
-		if(strcmp(key, (*l)->key))
+		if(!strcmp(key, (*l)->key))
 			return 1;
 		curr = curr->next;
 	}
@@ -84,7 +81,7 @@ void bucketInsert(Tuple t, List *l) {
 void insert(Tuple t, Hashtable h) {
   //printf("Inserting tuple with key %s into this index: %d\n", t.key, hash(t.key));
   if(keyExists(t.key, &h[hash(t.key)])) {
-	  //printf("cannot insert because key already exists\n");
+	  printf("cannot insert because key already exists\n");
   } else {
 	  printf("inserting...\n");
 	  bucketInsert(t, &(h[hash(t.key)]));
@@ -93,10 +90,6 @@ void insert(Tuple t, Hashtable h) {
 }
 
 int cmpTuple(Tuple a, Tuple b) {
-	printf("a.key=%s\n", a.key);
-	printf("b.key=%s\n", b.key);
-	printf("a.nAttr=%d\n", a.nAttr);
-	printf("b.nAttr=%d\n", b.nAttr);
 	if(a.nAttr == b.nAttr && a.key == b.key) {
 		for(int i=0; i< a.nAttr; i++) {
 			//returns false if any of the attributes do not match
@@ -220,6 +213,7 @@ void bucketDelete(Tuple t, List *head) {
 
 
 void delete(Tuple t, Hashtable h ) {
+	printf("deleting...\n");
 	bucketDelete(t, &h[hash(t.key)]);
 }
 
@@ -248,12 +242,12 @@ int main(void) {
   insert(d, csg);
   
   printTable(csg);
-  //delete(a, csg);
-  //delete(b,csg);
-  //delete(d, csg);
+  delete(a, csg);
+  delete(c,csg);
+  delete(d, csg);
  
-  //printTable(csg);
-  
+  printTable(csg);
+
 
 
 
