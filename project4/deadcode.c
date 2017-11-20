@@ -72,7 +72,7 @@ typedef struct CDH* LCDH;
   printf("hash3: %d\n", i2);
 
 
-
+/////////////////////////////////////
 
 
 
@@ -101,3 +101,58 @@ adding values in row 2 of the table t
   printf("%s\n", t[1].course);
   printf("%d\n", t[1].id);
   printf("%s\n", t[1].grade);
+  
+  //////////////////////////
+  
+  void cpyTuple(Tuple *a, Tuple *b){
+	printf("a->nAttr=%d\n",a->nAttr);
+	printf("b->nAttr=%d\n",b->nAttr);
+	if(a->nAttr == b->nAttr) {
+		a->key = b->key;
+		a->next = b->next;
+		for(int i=0; i<a->nAttr; i++) {
+			a->attr[i] = b->attr[i];
+		}
+	} else {
+		printf("The tuples are not of the same length.\n");
+	}
+}
+
+Tuple* bucketDelete(Tuple t, List *l) {
+	if(*l == NULL)
+		return NULL;
+	//check to see if t matches the head of the list
+	if(cmpTuple(t, *l[0])) {
+		Tuple *temp;
+		
+		temp = (*l)->next;
+
+		free(*l);
+		
+		printf("returning temp\n");
+		return temp;
+	} 
+	(*l)->next = bucketDelete(t, &((*l)->next));
+	printf("returning *l\n");
+	return *l;
+	
+
+void bucketDelete(Tuple t, Tuple *l) {
+
+	if(l != NULL) {
+		printTuple(t);
+		printf("Comparing with ");
+		printTuple(*l);
+		if(cmpTuple(t, *l)){
+			Tuple *temp;
+			
+			temp = l->next;
+			//free(l);
+			cpyTuple(l, l->next);
+			l->next = l->next->next;
+			bucketDelete(t, l->next);
+		}
+	}
+	printf("Tuple cannot be deleted from an empty list\n");
+}
+}

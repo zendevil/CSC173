@@ -44,6 +44,21 @@ Tuple tuple_new(char *key, int nAttr, ...) {
 
 }
 
+int matchSpecs(Tuple ct, Tuple lt) {
+	if(ct.nAttr != lt.nAttr) {
+		printf("Tuples have different length so cannot compare specs\n");
+	} else {
+		for(int i=0; i<ct.nAttr; i++) {
+			if(strcmp(ct.attr[i], "*") && strcmp(ct.attr[i], lt.attr[i])) {
+				printf("The specs don't match\n");
+				return 0;
+			}
+		}
+		return 1;
+	}
+	
+}
+
 int hash(char* key) {
 
   int sum = 0;
@@ -123,60 +138,6 @@ void printTable(Hashtable h) {
 }
 
 
-/*
-void cpyTuple(Tuple *a, Tuple *b){
-	printf("a->nAttr=%d\n",a->nAttr);
-	printf("b->nAttr=%d\n",b->nAttr);
-	if(a->nAttr == b->nAttr) {
-		a->key = b->key;
-		a->next = b->next;
-		for(int i=0; i<a->nAttr; i++) {
-			a->attr[i] = b->attr[i];
-		}
-	} else {
-		printf("The tuples are not of the same length.\n");
-	}
-}
-
-Tuple* bucketDelete(Tuple t, List *l) {
-	if(*l == NULL)
-		return NULL;
-	//check to see if t matches the head of the list
-	if(cmpTuple(t, *l[0])) {
-		Tuple *temp;
-		
-		temp = (*l)->next;
-
-		free(*l);
-		
-		printf("returning temp\n");
-		return temp;
-	} 
-	(*l)->next = bucketDelete(t, &((*l)->next));
-	printf("returning *l\n");
-	return *l;
-	
-
-void bucketDelete(Tuple t, Tuple *l) {
-
-	if(l != NULL) {
-		printTuple(t);
-		printf("Comparing with ");
-		printTuple(*l);
-		if(cmpTuple(t, *l)){
-			Tuple *temp;
-			
-			temp = l->next;
-			//free(l);
-			cpyTuple(l, l->next);
-			l->next = l->next->next;
-			bucketDelete(t, l->next);
-		}
-	}
-	printf("Tuple cannot be deleted from an empty list\n");
-}
-}*/
-
 
 void bucketDelete(Tuple t, List *head) {
 	if(*head == NULL) {
@@ -186,7 +147,7 @@ void bucketDelete(Tuple t, List *head) {
 		Tuple *trail = NULL;
 		
 		while(curr != NULL) {
-			if(cmpTuple(*curr, t)) {
+			if(matchSpecs(t, *curr)) {
 				break;
 			} else {
 				trail = curr;
@@ -241,13 +202,12 @@ int main(void) {
   Tuple d = tuple_new("George Eastman", 3, "MUR110", "George Eastman", "A+");
   insert(d, csg);
   
+  Tuple e = tuple_new("George Eastman", 3, "*", "*", "*");
+  
+  //printf("a ?= d %d", matchSpecs(e,a));
   printTable(csg);
-  delete(a, csg);
-  delete(c,csg);
-  delete(d, csg);
- 
+  delete(e,csg);
   printTable(csg);
-
 
 
 
