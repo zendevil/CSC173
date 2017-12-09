@@ -1,0 +1,2 @@
+tuple	Jack Sparrow	3	CS101	Jack Sparrow	A+
+tuple	Jock Sporrow	3	CS101	Jock Sporrow	A-
