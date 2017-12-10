@@ -5,8 +5,8 @@
 # Time-stamp: <Mon Nov 28 14:31:03 EST 2016 ferguson>
 #
 
-SRCS = Value.c Gates.c Circuit.c main.c
-HDRS = Value.h Gates.h Circuit.h
+SRCS = Value.c Gates.c Circuit.c Tree.c main.c
+HDRS = Value.h Gates.h Circuit.h Tree.h
 OBJS = $(SRCS:.c=.o)
 EXE = boosim
 ZIPDIR = CSC173 Project5 Boolean Circuit Simulator
@@ -22,4 +22,3 @@ zip:
 	cp -p $(SRCS) $(HDRS) Makefile '$(ZIPDIR)'
 	zip -r '$(ZIPDIR)' '$(ZIPDIR)'
 	rm -r '$(ZIPDIR)'
-

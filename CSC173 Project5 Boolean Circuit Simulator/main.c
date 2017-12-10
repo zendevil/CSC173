@@ -120,7 +120,7 @@ static Circuit *Circuits_1BitAdder() {
 	Value* in2 = new_Value(false);
 	Gate* inv0 = new_Inverter(in0);
 	Gate* inv1 = new_Inverter(in1);
-	Gate* inv2 = new_Inverter(in2);	
+	Gate* inv2 = new_Inverter(in2);
 	Gate* and1 = new_And3Gate(Gate_getOutput(inv0),Gate_getOutput(inv1), in2);
 	Gate* and2 = new_And3Gate(Gate_getOutput(inv0),in1, Gate_getOutput(inv2));
 	Gate* and3 = new_And3Gate(Gate_getOutput(inv0),in1, in2);
@@ -194,7 +194,7 @@ void testAllInputs(Circuit* c) {
 			}
 		}
 	} else if (Circuit_numInputs(c) == 3) {
-		
+
 		for(int i = 0; i<sizeof(tf); i++) {
 			for(int j = 0; j<sizeof(tf); j++) {
 				for(int k=0; k<sizeof(tf); k++) {
@@ -218,21 +218,23 @@ int main(int argc, char **argv) {
 	printf("(a)\n");
 	testAllInputs(a);
 	printf("\n");
-	
+
 	Circuit* b = Circuits_b();
 	printf("(b)\n");
 	testAllInputs(b);
 	printf("\n");
-	
+
 	Circuit* c = Circuits_c();
 	printf("(c)\n");
 	testAllInputs(c);
 	printf("\n");
-	
+
 	Circuit* d = Circuits_1BitAdder();
 	printf("One Bit Adder\n");
 	testAllInputs(d);
 	printf("\n");
-	
-	
+
+	print("(TAF)OF");
+
+
 }
